@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Country from "./components/Country";
+import NewCountry from "./components/NewCountry";
 import './App.css'
 
 function App() {
@@ -29,6 +30,17 @@ function App() {
     ));
   };
 
+  const addCountry = (newCountry) => {
+    const newId = countries.length > 0 ? Math.max(...countries.map(c => c.id)) + 1 : 1;
+    setCountries([...countries, {
+      id: newId,
+      name: newCountry.name,
+      gold: newCountry.gold,
+      silver: newCountry.silver,
+      bronze: newCountry.bronze
+    }]);
+  };
+
   const totalAllMedals = countries.reduce((total, country) => {
     return total + country.gold + country.silver + country.bronze;
   }, 0);
@@ -51,6 +63,9 @@ function App() {
             onDecrement={handleDecrement}
           />
         ))}
+      </div>
+      <div className="add-country-container">
+        <NewCountry onAdd={addCountry} />
       </div>
     </div>
   );
